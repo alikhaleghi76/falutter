@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'screen/generate_faal.dart';
+import 'screen/view_faal.dart';
 import 'widget/main_menu.dart';
 
 void main() {
@@ -14,6 +17,19 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: MainMenu(),
       ),
+      routes: {
+        GenerateFaalScreen.ROUTE_NAME: (context) => GenerateFaalScreen(),
+        ViewFaalScreen.ROUTE_NAME: (context) => ViewFaalScreen(),
+
+      },
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+      ],
+      locale: Locale("fa", "IR"),
     );
   }
 

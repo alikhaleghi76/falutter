@@ -1,3 +1,4 @@
+import '../screen/generate_faal.dart';
 import 'package:flutter/material.dart';
 
 class MainMenu extends StatelessWidget {
@@ -13,7 +14,7 @@ class MainMenu extends StatelessWidget {
             child: Text(
               ' فال حافظ'
             ),
-            onPressed: () => {},
+            onPressed: () => {openGenerateFaalScreen(context)},
           ),
 
           RaisedButton(
@@ -30,5 +31,9 @@ class MainMenu extends StatelessWidget {
 
       ),
     );
+  }
+
+  openGenerateFaalScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(GenerateFaalScreen.ROUTE_NAME);
   }
 }
