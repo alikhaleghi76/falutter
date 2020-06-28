@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widget/main_menu.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -7,8 +9,11 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ,
+    return MaterialApp(
+      title: 'Falutter',
+      home: Scaffold(
+        body: MainMenu(),
+      ),
     );
   }
 
