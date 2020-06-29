@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,6 +13,7 @@ class ViewFaalScreen extends StatefulWidget {
 
 class _ViewFaalScreenState extends State<ViewFaalScreen> {
   Faal faal;
+  bool showInterpretation = true;
 
   @override
   void initState() {
@@ -22,7 +21,17 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
 
     Future<Database> futureDB = initDatabase();
     futureDB.then((db) {
-      Future<Faal> futureFaal = getFaalFromDB(db);
+      Map<String, Object> args =
+          (ModalRoute.of(context).settings.arguments as Map<String, Object>);
+      print(args);
+
+      int faalID = args['id'] as int;
+      print(faalID);
+
+      if (args.containsKey('show_interpretation'))
+        showInterpretation = args['show_interpretation'] as bool;
+
+      Future<Faal> futureFaal = getFaalFromDB(db, faalID);
       futureFaal.then((faal) {
         print(faal);
         setState(() {
@@ -45,7 +54,10 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(faal.poem),
-                    Text(faal.interpretation),
+                    Visibility(
+                      child: Text(faal.interpretation),
+                      visible: showInterpretation,
+                    ),
                   ],
                 ),
               )
@@ -59,10 +71,9 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
     return dbFuture;
   }
 
-  Future<Faal> getFaalFromDB(Database database) async {
-    var random = new Random();
-    List<Map<String, dynamic>> result = await database.rawQuery(
-        "SELECT * FROM faals WHERE id = ?", ['${random.nextInt(495)}']);
+  Future<Faal> getFaalFromDB(Database database, int faalID) async {
+    List<Map<String, dynamic>> result = await database
+        .rawQuery("SELECT * FROM faals WHERE id = ?", ['$faalID']);
     Faal faal = Faal(int.parse(result[0]['id']), result[0]['Poem'],
         result[0]['Interpretation']);
     return faal;

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../screen/view_faal.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +28,9 @@ class GenerateFaalScreen extends StatelessWidget {
   }
 
   void openFaalScreen(BuildContext context) {
-    Navigator.of(context).pushNamed(ViewFaalScreen.ROUTE_NAME);
+    var random = new Random();
+    Navigator.of(context).pushNamed(ViewFaalScreen.ROUTE_NAME, arguments: {
+      "id": random.nextInt(495)
+    });
   }
 }

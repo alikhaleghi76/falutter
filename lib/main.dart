@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'screen/generate_faal.dart';
+import 'screen/poem_list.dart';
 import 'screen/view_faal.dart';
 import 'widget/main_menu.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         GenerateFaalScreen.ROUTE_NAME: (context) => GenerateFaalScreen(),
         ViewFaalScreen.ROUTE_NAME: (context) => ViewFaalScreen(),
+        PoemListScreen.ROUTE_NAME: (context) => PoemListScreen(),
 
       },
       localizationsDelegates: [
