@@ -26,6 +26,10 @@ class MyApp extends StatelessWidget {
         AboutScreen.ROUTE_NAME: (context) => AboutScreen(),
 
       },
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Vazir'
+      ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
