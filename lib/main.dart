@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
       },
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         fontFamily: 'Vazir'
       ),
       localizationsDelegates: [

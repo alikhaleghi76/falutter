@@ -17,6 +17,76 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
   bool showInterpretation = true;
 
   @override
+  Widget build(BuildContext context) {
+
+    String poem = "";
+    if (faal != null) {
+      List<String> parts = faal.poem.split("\n");
+      for (int i = 0; i < parts.length; i++) {
+        poem += parts[i];
+        if (i < parts.length - 2) {
+          if (i % 2 == 0)
+            poem += "\n";
+          else
+            poem += "\n\n";
+        }
+      }
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text((faal != null) ? 'غزل شماره ${faal.id}' : ''),
+      ),
+      body: Container(
+        width: double.infinity,
+        child: (faal != null)
+            ? SingleChildScrollView(
+                child: Container(
+                  padding:
+                      EdgeInsets.only(right: 32, left: 32, top: 24, bottom: 24),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          poem,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Visibility(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Divider(
+                              height: 48,
+                            ),
+                            Text(
+                              'تفسیر فال',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold, ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 8),
+                              child: Text(
+                                faal.interpretation,
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ],
+                        ),
+                        visible: showInterpretation,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : Center(child: CircularProgressIndicator()),
+      ),
+    );
+  }
+
+  @override
   void initState() {
     super.initState();
 
@@ -40,31 +110,6 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
         });
       });
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('غزل شماره ${faalID}'),
-      ),
-      body: Container(
-        width: double.infinity,
-        child: (faal != null)
-            ? SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Text(faal.poem),
-                    Visibility(
-                      child: Text(faal.interpretation),
-                      visible: showInterpretation,
-                    ),
-                  ],
-                ),
-              )
-            : Center(child: CircularProgressIndicator()),
-      ),
-    );
   }
 
   Future<Database> initDatabase() async {
