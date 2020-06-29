@@ -13,6 +13,7 @@ class ViewFaalScreen extends StatefulWidget {
 
 class _ViewFaalScreenState extends State<ViewFaalScreen> {
   Faal faal;
+  int faalID;
   bool showInterpretation = true;
 
   @override
@@ -25,7 +26,7 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
           (ModalRoute.of(context).settings.arguments as Map<String, Object>);
       print(args);
 
-      int faalID = args['id'] as int;
+      faalID = args['id'] as int;
       print(faalID);
 
       if (args.containsKey('show_interpretation'))
@@ -45,7 +46,7 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((faal != null) ? 'غزل شماره ${faal.id}' : ''),
+        title: Text('غزل شماره ${faalID}'),
       ),
       body: Container(
         width: double.infinity,
@@ -74,6 +75,7 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
   Future<Faal> getFaalFromDB(Database database, int faalID) async {
     List<Map<String, dynamic>> result = await database
         .rawQuery("SELECT * FROM faals WHERE id = ?", ['$faalID']);
+    print(result);
     Faal faal = Faal(int.parse(result[0]['id']), result[0]['Poem'],
         result[0]['Interpretation']);
     return faal;

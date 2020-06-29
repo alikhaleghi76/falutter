@@ -1,4 +1,5 @@
-import 'package:falutter/screen/poem_list.dart';
+import '../screen/about_screen.dart';
+import '../screen/poem_list.dart';
 
 import '../screen/generate_faal.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MainMenu extends StatelessWidget {
 
           RaisedButton(
             child: Text('درباره'),
-            onPressed: () => {},
+            onPressed: () => {openAboutScreen(context)},
           ),
 
         ],
@@ -41,5 +42,9 @@ class MainMenu extends StatelessWidget {
 
   openPoemListScreen(BuildContext context) {
     Navigator.of(context).pushNamed(PoemListScreen.ROUTE_NAME);
+  }
+
+  openAboutScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(AboutScreen.ROUTE_NAME);
   }
 }
