@@ -29,6 +29,8 @@ dependencies:
   sqflite: ^1.3.1
   path_provider: ^1.5.1
   websafe_svg: ^1.1.0
+  clipboard_manager: ^0.0.4
+  share: ^0.6.4+3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
