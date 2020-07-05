@@ -15,10 +15,10 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
   Faal faal;
   int faalID;
   bool showInterpretation = true;
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
-
     String poem = "";
     if (faal != null) {
       List<String> parts = faal.poem.split("\n");
@@ -63,8 +63,9 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
                             Text(
                               'تفسیر فال',
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold, ),
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 8),
@@ -102,10 +103,20 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
       if (args.containsKey('show_interpretation'))
         showInterpretation = args['show_interpretation'] as bool;
 
+      if (args.containsKey('search_query'))
+        searchQuery = args['search_query'] as String;
+
       Future<Faal> futureFaal = getFaalFromDB(db, faalID);
       futureFaal.then((faal) {
         print(faal);
         setState(() {
+          print(searchQuery);
+          if (faal != null &&
+              searchQuery != null &&
+              searchQuery.isNotEmpty &&
+              faal.poem.contains(searchQuery))
+            faal.poem = faal.poem.replaceAll(searchQuery, "«$searchQuery»");
+
           this.faal = faal;
         });
       });
