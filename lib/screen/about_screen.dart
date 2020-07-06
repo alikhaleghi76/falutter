@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
   static const String ROUTE_NAME = '/about';
@@ -6,12 +8,27 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('درباره'),),
       body: Container(
         width: double.infinity,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('برنامه نویس: علی خالقی'),
+              FlatButton(onPressed: () {
+                launch('https://github.com/alikhaleghi76');
+              },
+              child: Text('برنامه نویس: علی خالقی',
+              style: TextStyle(
+                color: Theme.of(context).accentColor
+              ),),),
+              FlatButton(onPressed: () {
+                launch('https://github.com/mahmoud-eskandari/HafezFaalDatabase');
+              },
+              child: Text('گردآوری اشعار: محمود اسکندری',
+              style: TextStyle(
+                color: Theme.of(context).accentColor
+              ),),),
+
             ]),
       ),
     );

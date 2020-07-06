@@ -1,4 +1,7 @@
+import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../data/database_connection.dart';
@@ -37,15 +40,15 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
       appBar: AppBar(
         title: Text((faal != null) ? 'غزل شماره ${faal.id}' : ''),
       ),
-      body: Container(
-        width: double.infinity,
-        child: (faal != null)
-            ? SingleChildScrollView(
-                child: Container(
-                  padding:
-                      EdgeInsets.only(right: 32, left: 32, top: 24, bottom: 24),
-                  child: Column(
-                    children: <Widget>[
+      body: Builder(
+        builder: (context) => Container(
+          width: double.infinity,
+          child: (faal != null)
+              ? SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        right: 32, left: 32, top: 24, bottom: 24),
+                    child: Column(children: <Widget>[
                       Container(
                         width: double.infinity,
                         child: Text(
@@ -53,7 +56,32 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
                           textAlign: TextAlign.center,
                         ),
                       ),
+                      Container(
+                        margin: EdgeInsets.only(top: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.content_copy),
+                              color: Colors.grey,
+                              tooltip: 'کپی کردن',
+                              onPressed: () {
+                                copyToClipboard(context, poem);
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.share),
+                              color: Colors.grey,
+                              tooltip: 'اشتراک گذاری',
+                              onPressed: () {
+                                shareText(context, poem);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                       Visibility(
+                        visible: showInterpretation,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -74,15 +102,38 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
                                 textAlign: TextAlign.justify,
                               ),
                             ),
+                            Container(
+                              margin: EdgeInsets.only(top: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(Icons.content_copy),
+                                    color: Colors.grey,
+                                    tooltip: 'کپی کردن',
+                                    onPressed: () {
+                                      copyToClipboard(context, faal.interpretation);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.share),
+                                    color: Colors.grey,
+                                    tooltip: 'اشتراک گذاری',
+                                    onPressed: () {
+                                      shareText(context, faal.interpretation);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
-                        visible: showInterpretation,
                       ),
-                    ],
+                    ]),
                   ),
-                ),
-              )
-            : Center(child: CircularProgressIndicator()),
+                )
+               : Center(child: CircularProgressIndicator()),
+        ),
       ),
     );
   }
@@ -135,5 +186,24 @@ class _ViewFaalScreenState extends State<ViewFaalScreen> {
     Faal faal = Faal(int.parse(result[0]['id']), result[0]['Poem'],
         result[0]['Interpretation']);
     return faal;
+  }
+
+  void copyToClipboard(BuildContext context, String text) {
+    ClipboardManager.copyToClipBoard(text).then((result) {
+      final snackBar = SnackBar(
+        content: Text(
+          'در حافظه ذخیره شد.',
+          style: TextStyle(fontFamily: 'Vazir'),
+        ),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    });
+  }
+
+  void shareText(BuildContext context, String text) {
+    final RenderBox box = context.findRenderObject();
+    Share.share(text,
+        subject: 'فال حافظ',
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 }
